@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
-  Text, Button, TextInput,
-  View, StyleSheet,
+  Text, TextInput,
+  StyleSheet,
   TouchableOpacity, KeyboardAvoidingView,
   TouchableWithoutFeedback, Keyboard
 } from 'react-native';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, View, Image, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Platform,
+  StyleSheet, View, Image, TextInput, Text, TouchableOpacity, KeyboardAvoidingView,
   TouchableWithoutFeedback, Keyboard
 } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
@@ -159,9 +159,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: "center",
         color: "#FFFFFF",
-
-
-
     },
 
     iconAdd: {
