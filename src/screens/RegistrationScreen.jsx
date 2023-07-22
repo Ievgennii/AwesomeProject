@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AntDesign } from '@expo/vector-icons';
 import {
   StyleSheet, View, Image, TextInput, Text, TouchableOpacity, KeyboardAvoidingView,
   TouchableWithoutFeedback, Keyboard
@@ -63,10 +64,11 @@ const RegistrationScreen = () => {
       >
         <View style={styles.avatar}>
           <Image source={emptyAvatar} style={styles.image} />
-          <Svg style={styles.avatarIcon}>
+          <AntDesign name="pluscircleo" size={24} color="black" style={styles.avatarIcon}/>
+          {/* <Svg style={styles.avatarIcon}>
             <Circle cx="12.5" cy="12.5" r="11" fill="white" stroke="#FF6C00" />
             <Path fillRule="evenodd" clipRule="evenodd" d="M13 6H12V12H6V13H12V19H13V13H19V12H13V6Z" fill="#FF6C00" />
-          </Svg>
+          </Svg> */}
         </View>
 
         <Text style={styles.title}>Реєстрація</Text>
@@ -160,9 +162,10 @@ const styles = StyleSheet.create({
 
   avatarIcon: {
     position: "absolute",
-    width: 30,
-    height: 30,
-    right: -15,
+    color: "#FF6C00",
+    width: 25,
+    height: 25,
+    right: -13,
     top: 70,
   },
 

@@ -23,8 +23,8 @@ export default function App() {
       <ImageBackground source={backgroundPhoto} resizeMode="cover" style={styles.image}>
         <View style={styles.wrapper}>
 
-          {/* <RegistrationScreen/> */}
-          <LoginScreen />
+          <RegistrationScreen/>
+          {/* <LoginScreen /> */}
         </View>
 
 
