@@ -11,7 +11,14 @@ const RegistrationScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [isMailFocused, setIsMailFocused] = useState(false);
+  const [isLoginFocused, setIsLoginFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+
+
+
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -27,6 +34,9 @@ const RegistrationScreen = () => {
       }
     );
 
+
+
+
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -41,10 +51,14 @@ const RegistrationScreen = () => {
     console.log('Вхід...');
   };
 
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <TouchableWithoutFeedback >
       <KeyboardAvoidingView
-        
+
         style={styles.container}
       >
         <View style={styles.avatar}>
@@ -57,11 +71,56 @@ const RegistrationScreen = () => {
 
         <Text style={styles.title}>Реєстрація</Text>
 
-        <TextInput style={styles.input} onChangeLogin={setName} value={login} placeholder="Логін" />
+        <TextInput
+          // style={styles.input}
+          style={[
+            styles.input,
+            isLoginFocused && styles.inputFocused, // Применяем стиль для активного состояния
+          ]}
+          onChangeLogin={setName}
+          value={login}
+          placeholder="Логін"
+          onFocus={() => setIsLoginFocused(true)} // Обработчик фокусировки
+          onBlur={() => setIsLoginFocused(false)} />
 
-        <TextInput style={styles.input} onChangeMail={setEmail} value={email} placeholder="Адреса електронної пошти" />
+        {/* <TextInput style={styles.input} onChangeMail={setEmail} value={email} placeholder="Адреса електронної пошти" /> */}
+        <TextInput
+          style={[
+            styles.input,
+            isMailFocused && styles.inputFocused, // Применяем стиль для активного состояния
+          ]}
+          value={email}
+          onChangeMail={setEmail}
+          placeholder="Адреса електронної пошти"
+          onFocus={() => setIsMailFocused(true)} // Обработчик фокусировки
+          onBlur={() => setIsMailFocused(false)} // Обработчик снятия фокуса
+        />
 
-        <TextInput style={styles.input} onChangePassword={setPassword} value={password} placeholder="Пароль" />
+        {/* <TextInput style={styles.input} onChangePassword={setPassword} value={password} placeholder="Пароль" /> */}
+
+        <View
+          // style={styles.inputContainer}
+          style={[
+            styles.inputContainer,
+            isPasswordFocused && styles.inputContainerFocused, // Применяем стиль для активного состояния
+          ]}
+          onFocus={() => setIsPasswordFocused(true)} // Обработчик фокусировки
+          onBlur={() => setIsPasswordFocused(false)} // Обработчик снятия фокуса
+        >
+          <TextInput
+            style={styles.inputPassword}
+
+            onChangeText={setPassword}
+            value={password}
+            placeholder="Пароль"
+            secureTextEntry={!showPassword}
+
+          />
+          <TouchableOpacity style={styles.showPasswordButton} onPress={handleShowPassword}>
+            <Text style={styles.showPasswordButtonText}>{showPassword ? 'Приховати' : 'Показати'}</Text>
+          </TouchableOpacity>
+        </View>
+
 
         {!isKeyboardVisible && (
           <>
@@ -80,98 +139,148 @@ const RegistrationScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        position: "relative",
-        flex: 1,
-        maxHeight: 500,
-        // maxHeight: '66%',
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        paddingBottom: 20,
+  container: {
+    position: "relative",
+    flex: 1,
+    maxHeight: 500,
+    // maxHeight: '66%',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingBottom: 20,
 
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
-        // width: 200,
-    },
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    // width: 200,
+  },
 
-    avatar: {
-        position: "relative",
-    },
+  avatar: {
+    position: "relative",
+  },
 
-    avatarIcon: {
-        position: "absolute",
-        width: 30,
-        height: 30,
-        right: -15,
-        top: 70,
-    },
+  avatarIcon: {
+    position: "absolute",
+    width: 30,
+    height: 30,
+    right: -15,
+    top: 70,
+  },
 
-    input: {
-        width: 343,
-        height: 50,
-        margin: 8,
-        borderWidth: 1,
-        padding: 10,
+  input: {
+    width: 343,
+    height: 50,
+    margin: 8,
+    borderWidth: 1,
+    padding: 10,
 
-        padding: 10,
-        color: "#BDBDBD",
-        backgroundColor: "#F6F6F6",
-        borderWidth: 1,
-        borderColor: "#E8E8E8",
-        borderRadius: 10,
-    },
+    color: "#BDBDBD",
+    backgroundColor: "#F6F6F6",
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    borderRadius: 10,
+  },
 
-    title: {
-        textAlign: "center",
-        fontFamily: "Roboto-Medium",
-        fontWeight: 500,
-        fontSize: 30,
-        marginBottom: 30,
+  inputFocused: {
+    borderColor: "#FF6C00", // Цвет бордера при фокусировке
+    backgroundColor: "#FFF", // Цвет фона при фокусировке
+  },
 
-    },
+  title: {
+    textAlign: "center",
+    fontFamily: "Roboto-Medium",
+    fontWeight: 500,
+    fontSize: 30,
+    marginBottom: 30,
 
-    link: {
-        marginTop: 16,
-        fontFamily: "Roboto-Regular",
-        fontWeight: 400,
-        fontSize: 16,
-        textAlign: "center",
-        color: "#1B4371",
-    },
+  },
 
-    btn: {
-        // width: 345,
+  link: {
+    marginTop: 16,
+    fontFamily: "Roboto-Regular",
+    fontWeight: 400,
+    fontSize: 16,
+    textAlign: "center",
+    color: "#1B4371",
+  },
 
-        marginTop: 30,
-        backgroundColor: '#FF6C00',
-        borderRadius: 100,
+  btn: {
+    // width: 345,
 
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 111,
-        paddingRight: 111,
-    },
+    marginTop: 30,
+    backgroundColor: '#FF6C00',
+    borderRadius: 100,
 
-    buttonTitle: {
-        fontFamily: "Roboto-Regular",
-        fontWeight: 400,
-        fontSize: 16,
-        textAlign: "center",
-        color: "#FFFFFF",
-    },
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: 111,
+    paddingRight: 111,
+  },
 
-    iconAdd: {
-        width: 25,
-        height: 25,
-        color: "#1B4371",
-    },
+  buttonTitle: {
+    fontFamily: "Roboto-Regular",
+    fontWeight: 400,
+    fontSize: 16,
+    textAlign: "center",
+    color: "#FFFFFF",
+  },
 
-    image: {
-        height: 120,
-        width: 120,
-        marginBottom: 32,
-    }
+  iconAdd: {
+    width: 25,
+    height: 25,
+    color: "#1B4371",
+  },
+
+  image: {
+    height: 120,
+    width: 120,
+    marginBottom: 32,
+  },
+
+
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 343,
+    height: 50,
+    margin: 8,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: "#F6F6F6",
+    borderColor: "#E8E8E8",
+    borderRadius: 10,
+  },
+
+  inputContainerFocused: {
+    borderColor: "#FF6C00", // Цвет бордера при фокусировке
+    backgroundColor: "#FFF", // Цвет фона при фокусировке
+  },
+
+  inputPassword: {
+    flex: 1,
+    // padding: 10,
+    // width: 343,
+    // height: 50,
+    // margin: 8,
+    // borderWidth: 1,
+    // padding: 10,
+    // backgroundColor: "#F6F6F6",
+    // borderColor: "#E8E8E8",
+    // borderRadius: 10,
+    // color: "#BDBDBD",
+    height: 50,
+    margin: 8,
+  },
+
+  inputPasswordFocused: {
+    borderColor: "#FF6C00", // Цвет бордера при фокусировке
+    backgroundColor: "#FFF", // Цвет фона при фокусировке
+  },
+  // showPasswordButton: {
+  //   padding: 5,
+  // },
+  // showPasswordButtonText: {
+  //   color: "#1B4371",
+  // },
 
 
 });

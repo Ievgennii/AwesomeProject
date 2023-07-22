@@ -23,8 +23,8 @@ export default function App() {
       <ImageBackground source={backgroundPhoto} resizeMode="cover" style={styles.image}>
         <View style={styles.wrapper}>
 
-          <RegistrationScreen/>
-          {/* <LoginScreen /> */}
+          {/* <RegistrationScreen/> */}
+          <LoginScreen />
         </View>
 
 
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    width: '100%',
     justifyContent: 'center',
   },
   wrapper: {
