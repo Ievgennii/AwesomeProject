@@ -7,13 +7,12 @@ import {
 } from 'react-native';
 
 
-
 const LoginScreen = () => {
   const [mail, setChangeMail] = useState('');
   const [password, setChangePassword] = useState('');
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const initialContainerHeight = 450;
+  const initialmarginTop = 200;
 
   const [showPassword, setShowPassword] = useState(false);
   const [isMailFocused, setIsMailFocused] = useState(false);
@@ -24,9 +23,14 @@ const LoginScreen = () => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        const keyboardHeight = 200;
+        const keyboardHeight = 140;
         setKeyboardHeight(keyboardHeight);
       }
+      // (event) => {
+      //   const keyboardHeight = event.endCoordinates.height;
+      //   console.log(keyboardHeight)
+      //   setKeyboardHeight(keyboardHeight);
+      // }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
@@ -43,7 +47,9 @@ const LoginScreen = () => {
 
   const containerStyle = {
     ...styles.container,
-    maxHeight: initialContainerHeight - keyboardHeight
+    // maxHeight: initialContainerHeight - keyboardHeight
+    marginTop: initialmarginTop - keyboardHeight
+    // paddingBottom: initialContainerHeight + keyboardHeight
   };
 
 
@@ -79,62 +85,53 @@ const LoginScreen = () => {
     setShowPassword(!showPassword);
   };
 
-
-
-
   return (
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
-    <TouchableWithoutFeedback >
-
-      <KeyboardAvoidingView
-
-        style={containerStyle}>
+    <KeyboardAvoidingView style={styles.view}>
+      <View style={containerStyle}>
         <Text style={styles.title}>Увійти</Text>
 
         {/* <TextInput placeholder="Пошта" value={mail}
           onChangeNail={setChangeMail}
           style={styles.input} /> */}
 
-<TextInput
-  style={[
-    styles.input,
-    isMailFocused && styles.inputFocused, // Применяем стиль для активного состояния
-  ]}
-  value={mail}
-  onChangeMail={setChangeMail}
-  placeholder="Пошта"
-  onFocus={() => setIsMailFocused(true)} // Обработчик фокусировки
-  onBlur={() => setIsMailFocused(false)} // Обработчик снятия фокуса
-/>
-
+        <TextInput
+          style={[
+            styles.input,
+            isMailFocused && styles.inputFocused,
+          ]}
+          value={mail}
+          onChangeMail={setChangeMail}
+          placeholder="Пошта"
+          onFocus={() => setIsMailFocused(true)}
+          onBlur={() => setIsMailFocused(false)}
+        />
 
         {/* <TextInput placeholder="Пароль" value={password}
               onChangeNail={setChangePassword}
               style={styles.input} /> */}
 
-        <View 
-        // style={styles.inputContainer}
-        style={[
-          styles.inputContainer,
-          isPasswordFocused && styles.inputContainerFocused, // Применяем стиль для активного состояния
-        ]}
-        onFocus={() => setIsPasswordFocused(true)} // Обработчик фокусировки
-        onBlur={() => setIsPasswordFocused(false)} // Обработчик снятия фокуса
+        <View
+          // style={styles.inputContainer}
+          style={[
+            styles.inputContainer,
+            isPasswordFocused && styles.inputContainerFocused,
+          ]}
+          onFocus={() => setIsPasswordFocused(true)}
+          onBlur={() => setIsPasswordFocused(false)}
         >
           <TextInput
             style={styles.inputPassword}
             value={password}
             onChangeText={setChangePassword}
             placeholder="Пароль"
-            secureTextEntry={!showPassword} // Используйте secureTextEntry, чтобы скрывать пароль
+            secureTextEntry={!showPassword}
           />
           <TouchableOpacity style={styles.showPasswordButton} onPress={handleShowPassword}>
             <Text style={styles.showPasswordButtonText}>{showPassword ? 'Скрыть' : 'Показать'}</Text>
           </TouchableOpacity>
         </View>
-
-
-
 
         {!isKeyboardVisible && (
           <>
@@ -146,28 +143,29 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </>
         )}
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
-
+      </View>
+    </KeyboardAvoidingView>
+    // </TouchableWithoutFeedback>
   );
-
 }
 
 const styles = StyleSheet.create({
-
+  view: {
+    position: "relative",
+    flex: 1,
+    justifyContent: "flex-end",
+  },
   container: {
     position: "relative",
     flex: 1,
-    maxHeight: 450,
+    // maxHeight: 450,
     // maxHeight: '66%',
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-end",
     paddingBottom: 30,
-
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-
   },
 
   title: {
@@ -175,15 +173,15 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Medium",
     fontWeight: 500,
     fontSize: 30,
-    marginBottom: 30,
+    marginBottom: 50,
 
   },
   input: {
-    width: 343,
+    // width: 343,
+    width: '96%',
     height: 50,
     margin: 8,
     borderWidth: 1,
-
     padding: 10,
     color: "#BDBDBD",
     backgroundColor: "#F6F6F6",
@@ -193,22 +191,18 @@ const styles = StyleSheet.create({
   },
 
   inputFocused: {
-    borderColor: "#FF6C00", // Цвет бордера при фокусировке
-    backgroundColor: "#FFF", // Цвет фона при фокусировке
+    borderColor: "#FF6C00",
+    backgroundColor: "#FFF",
   },
-  
-  btn: {
-    width: 345,
 
+  btn: {
+    width: '96%',
     marginTop: 43,
     marginBottom: 16,
     backgroundColor: '#FF6C00',
     borderRadius: 100,
-
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 111,
-    paddingRight: 111,
+    paddingVertical: 16,
+    paddingHorizontal: 111,
   },
 
   buttonTitle: {
@@ -217,8 +211,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: "#FFFFFF",
-
   },
+
   link: {
     fontFamily: "Roboto-Regular",
     fontWeight: 400,
@@ -230,7 +224,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 343,
+    // width: 343,
     height: 50,
     margin: 8,
     borderWidth: 1,
@@ -241,8 +235,8 @@ const styles = StyleSheet.create({
   },
 
   inputContainerFocused: {
-    borderColor: "#FF6C00", // Цвет бордера при фокусировке
-    backgroundColor: "#FFF", // Цвет фона при фокусировке
+    borderColor: "#FF6C00",
+    backgroundColor: "#FFF",
   },
 
   inputPassword: {
@@ -252,9 +246,11 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 8,
   },
+
   showPasswordButton: {
     padding: 5,
   },
+
   showPasswordButtonText: {
     color: "#1B4371",
   },
